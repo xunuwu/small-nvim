@@ -22,11 +22,14 @@ conform.setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		nix = { "alejandra" },
+      zig = { "zigfmt" },
 	},
 })
 
 local autoFormatFiletypes = {
 	"nix",
+   "lua",
+   "zig",
 }
 
 vim.api.nvim_create_autocmd("LspAttach", {
