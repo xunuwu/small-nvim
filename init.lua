@@ -1,3 +1,5 @@
+pcall(function() vim.loader.enable() end)
+
 require('opts')
 require('keys')
 
@@ -14,85 +16,59 @@ if not vim.loop.fs_stat(mini_path) then
    vim.cmd('packadd mini.nvim | helptags ALL')
    vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
-
--- Set up 'mini.deps' (customize to your liking)
 require('mini.deps').setup({ path = { package = path_package } })
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+local source = function(path)
+   dofile(vim.fn.stdpath('config') .. '/lua/' .. path)
+end
 
-add({
-   source = 'nvim-treesitter/nvim-treesitter',
-   -- Use 'master' while monitoring updates in 'main'
-   checkout = 'master',
-   monitor = 'main',
-   -- Perform action after every checkout
-   hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
-})
+now(function() source('opts.lua') end)
+now(function() source('keys.lua') end)
 
-require('nvim-treesitter.configs').setup({
-   ensure_installed = { 'lua', 'vimdoc' },
-   highlight = { enable = true },
-})
+now(function()
+   require('mini.statusline').setup()
+end)
+
+later(function()
+   require("mini.extra").setup()
+end)
 
 
 
-add('nvim-tree/nvim-web-devicons')
-require('nvim-web-devicons').setup()
 
-require('mini.statusline').setup()
+
 
 require("mini.pairs").setup()
 
-require("mini.pick").setup()
-require("mini.extra").setup()
-vim.keymap.set("n", "<leader>f", MiniPick.builtin.files)
-vim.keymap.set("n", "<leader>ss", MiniPick.builtin.grep_live)
-vim.keymap.set("n", "<leader>sg", MiniPick.builtin.grep)
-vim.keymap.set("n", "<leader>sb", MiniPick.builtin.buffers)
-vim.keymap.set("n", "<leader>sh", MiniPick.builtin.help)
-vim.keymap.set("n", "<leader>st", MiniExtra.pickers.diagnostic)
-vim.keymap.set("n", "<leader>sr", MiniExtra.pickers.registers)
+later(function()
+   require("mini.pick").setup()
+   vim.keymap.set("n", "<leader>f", MiniPick.builtin.files)
+   vim.keymap.set("n", "<leader>ss", MiniPick.builtin.grep_live)
+   vim.keymap.set("n", "<leader>sg", MiniPick.builtin.grep)
+   vim.keymap.set("n", "<leader>sb", MiniPick.builtin.buffers)
+   vim.keymap.set("n", "<leader>sh", MiniPick.builtin.help)
+   vim.keymap.set("n", "<leader>st", MiniExtra.pickers.diagnostic)
+   vim.keymap.set("n", "<leader>sr", MiniExtra.pickers.registers)
+end)
 
-require("mini.files").setup()
-vim.keymap.set("n", "<leader>e", MiniFiles.open)
+
+
+later(function()
+   require("mini.files").setup()
+   vim.keymap.set("n", "<leader>e", MiniFiles.open)
+end)
 
 require('mini.indentscope').setup()
 
 require('mini.misc').setup()
 vim.keymap.set("n", "<leader>z", MiniMisc.zoom)
 
--- TODO: Install lspconfig, setup ccls
 add({
    source = 'neovim/nvim-lspconfig',
 })
 
-
-local lspconfig = require('lspconfig')
-
-; (function(conf)
-   for _, v in ipairs(conf) do
-      if type(v) == "string" then
-         lspconfig[v].setup({})
-      elseif type(v) == "table" then
-         lspconfig[v[1]].setup(v[2])
-      end
-   end
-end)({
-       "ccls",
-       "lua_ls",
-       "tsserver",
-       "zls",
-    })
-
-vim.api.nvim_create_autocmd('LspAttach', {
-   callback = function(args)
-      vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = args.buf })
-      vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, { buffer = args.buf })
-      vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = args.buf })
-      vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { buffer = args.buf })
-      vim.keymap.set({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, { buffer = args.buf })
-   end,
-})
+require('plugins.lsp')
 
 require('mini.completion').setup()
 
@@ -135,25 +111,40 @@ require('mini.clue').setup({
 add({
    source = "mfussenegger/nvim-dap",
 })
+require('plugins.dap')
 
-local dap = require('dap')
-dap.adapters.gdb = {
-   type = "executable",
-   command = "gdb",
-   args = { "-i", "dap" },
-}
+-- dependencies ===================
+now(function() add('nvim-tree/nvim-web-devicons') end)
 
-dap.configurations.c = {
-   {
-      name = "Launch",
-      type = "gdb",
-      request = "launch",
-      program = function()
-         return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-      end,
-      cwd = "${workspaceFolder}",
-      stopAtBeginningOfMainSubprogram = false,
-   },
-}
+later(function()
+   local ts_spec = {
+      source = "nvim-treesitter/nvim-treesitter",
+   }
+   add({
+      source = 'nvim-treesitter/nvim-treesitter',
+      -- Use 'master' while monitoring updates in 'main'
+      checkout = 'master',
+      monitor = 'main',
+      -- Perform action after every checkout
+      hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
+   })
 
--- TODO: setup nvim-dap keybindings
+   local ensure_installed = {
+      'c', 'cpp', 'css', 'html', 'javascript', 'json', 'lua', 'markdown', 'markdown_inline', 'python', 'rust', 'toml',
+      'tsx', 'yaml', 'vim', 'vimdoc'
+   }
+   require('nvim-treesitter.configs').setup({
+      ensure_installed = ensure_installed,
+      highlight = { enable = true },
+      incremental_selection = { enable = false },
+      textobjects = { enable = false },
+      indent = { enable = false },
+   })
+end)
+
+later(function()
+   require('nvim-treesitter.configs').setup({
+      ensure_installed = { 'lua', 'vimdoc' },
+      highlight = { enable = true },
+   })
+end)
