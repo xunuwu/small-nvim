@@ -13,6 +13,7 @@ end)({
 	"tsserver",
 	"zls",
 	"nil_ls",
+	"gopls",
 })
 
 local conform = require("conform")
