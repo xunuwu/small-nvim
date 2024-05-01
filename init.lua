@@ -1,8 +1,5 @@
 pcall(function() vim.loader.enable() end)
 
-require('opts')
-require('keys')
-
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
@@ -19,12 +16,9 @@ end
 require('mini.deps').setup({ path = { package = path_package } })
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
-local source = function(path)
-   dofile(vim.fn.stdpath('config') .. '/lua/' .. path)
-end
 
-now(function() source('opts.lua') end)
-now(function() source('keys.lua') end)
+now(function() require('opts') end)
+now(function() require('keys') end)
 
 now(function()
    require('mini.statusline').setup()
