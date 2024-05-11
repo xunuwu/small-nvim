@@ -18,3 +18,4 @@ dap.configurations.c = {
 		stopAtBeginningOfMainSubprogram = false,
 	},
 }
+dap.configurations.cpp = dap.configurations.c

@@ -28,7 +28,7 @@
               '';
               wrapperArgs = ''
                 --suffix PATH : "${lib.makeBinPath (with pkgs; [
-                  gcc
+                  gcc # TODO: make this actually work for treesitter
                   ripgrep
                   git
 

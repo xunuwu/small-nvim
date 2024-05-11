@@ -8,7 +8,7 @@ local lspconfig = require("lspconfig");
 		end
 	end
 end)({
-	"ccls",
+	"clangd",
 	"lua_ls",
 	"tsserver",
 	"zls",
@@ -22,14 +22,16 @@ conform.setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		nix = { "alejandra" },
-      zig = { "zigfmt" },
+		zig = { "zigfmt" },
+		c = { "clang-format" },
+		cpp = { "clang-format" },
 	},
 })
 
 local autoFormatFiletypes = {
 	"nix",
-   "lua",
-   "zig",
+	"lua",
+	"zig",
 }
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -37,7 +39,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
 		vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = args.buf })
-		vim.keymap.set("n", "<leader>lf", conform.format, { buffer = args.buf })
+		vim.keymap.set({ "n", "v" }, "<leader>lf", conform.format, { buffer = args.buf })
 		vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { buffer = args.buf })
 	end,
 })
@@ -53,6 +55,6 @@ end
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = formatPattern,
 	callback = function(args)
-		require("conform").format({ bufnr = args.buf })
+		conform.format({ bufnr = args.buf })
 	end,
 })

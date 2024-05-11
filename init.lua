@@ -51,7 +51,11 @@ later(function()
 end)
 
 later(function()
-	require("mini.files").setup()
+	require("mini.files").setup({
+		windows = {
+			preview = true,
+		},
+	})
 	vim.keymap.set("n", "<leader>r", function()
 		if not MiniFiles.close() then
 			MiniFiles.open()
@@ -136,10 +140,12 @@ require("mini.clue").setup({
 	},
 })
 
-add({
-	source = "mfussenegger/nvim-dap",
-})
-require("plugins.dap")
+later(function()
+	add({
+		source = "mfussenegger/nvim-dap",
+	})
+	require("plugins.dap")
+end)
 
 -- dependencies ===================
 now(function()
