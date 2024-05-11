@@ -14,6 +14,7 @@ end)({
 	"zls",
 	"nil_ls",
 	"gopls",
+	"svelte",
 })
 
 local conform = require("conform")
