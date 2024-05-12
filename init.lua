@@ -104,13 +104,6 @@ later(function()
 	require("plugins.lsp")
 end)
 
-now(function()
-	-- this is needed to load exrc files on nixos,
-	-- exrc files are usually skipped since nixos specifies a custom config path with '-u'
-	add("jedrzejboczar/exrc.nvim")
-	require("plugins.exrc")
-end)
-
 require("mini.completion").setup()
 
 require("mini.clue").setup({
@@ -152,6 +145,13 @@ later(function()
 		source = "mfussenegger/nvim-dap",
 	})
 	require("plugins.dap")
+end)
+
+later(function()
+	-- this is needed to load exrc files on nixos,
+	-- exrc files are usually skipped since nixos specifies a custom config path with '-u'
+	add("jedrzejboczar/exrc.nvim")
+	require("plugins.exrc")
 end)
 
 -- dependencies ===================
