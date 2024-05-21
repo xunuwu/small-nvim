@@ -53,6 +53,10 @@ later(function()
 	vim.keymap.set("n", "<leader>sr", MiniExtra.pickers.registers)
 end)
 
+now(function()
+	add("wakatime/vim-wakatime")
+end)
+
 later(function()
 	require("mini.files").setup({
 		windows = {
