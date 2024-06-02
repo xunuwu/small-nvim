@@ -4,7 +4,8 @@ local lspconfig = require("lspconfig");
 		if type(v) == "string" then
 			lspconfig[v].setup({})
 		elseif type(v) == "table" then
-			lspconfig[v[1]].setup(v[2])
+			local opts = v[2] or {}
+			lspconfig[v[1]].setup(opts)
 		end
 	end
 end)({
@@ -42,6 +43,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = args.buf })
 		vim.keymap.set({ "n", "v" }, "<leader>lf", conform.format, { buffer = args.buf })
 		vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { buffer = args.buf })
+		vim.keymap.set("n", "<leader>lh", function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = args.buf }), { bufnr = args.buf })
+		end, { buffer = args.buf })
 	end,
 })
 
