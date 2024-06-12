@@ -23,13 +23,15 @@ require("mini.deps").setup({ path = { package = path_package } })
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 now(function()
+	add("EdenEast/nightfox.nvim")
+	require("plugins.colorscheme")
+end)
+
+now(function()
 	require("opts")
 end)
 now(function()
 	require("keys")
-end)
-now(function()
-	require("colors")
 end)
 
 now(function()
@@ -53,7 +55,7 @@ later(function()
 	vim.keymap.set("n", "<leader>sr", MiniExtra.pickers.registers)
 end)
 
-now(function()
+later(function()
 	add("wakatime/vim-wakatime")
 end)
 
