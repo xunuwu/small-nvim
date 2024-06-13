@@ -42,7 +42,9 @@ later(function()
 	require("mini.extra").setup()
 end)
 
-require("mini.pairs").setup()
+later(function()
+	require("mini.pairs").setup()
+end)
 
 later(function()
 	require("mini.pick").setup()
@@ -107,7 +109,7 @@ require("mini.indentscope").setup()
 require("mini.misc").setup()
 vim.keymap.set("n", "<leader>z", MiniMisc.zoom)
 
-later(function()
+now(function()
 	add("neovim/nvim-lspconfig")
 	add("stevearc/conform.nvim")
 	require("plugins.lsp")
@@ -156,10 +158,7 @@ later(function()
 	require("plugins.dap")
 end)
 
-later(function()
-	-- this is needed to load exrc files on nixos,
-	-- exrc files are usually skipped since nixos specifies a custom config path with '-u'
-	add("jedrzejboczar/exrc.nvim")
+now(function()
 	require("plugins.exrc")
 end)
 
