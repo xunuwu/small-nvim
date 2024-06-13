@@ -62,6 +62,10 @@ later(function()
 end)
 
 now(function()
+	require("mini.surround").setup()
+end)
+
+now(function()
 	require("mini.notify").setup({
 		window = {
 			config = function()
