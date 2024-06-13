@@ -38,15 +38,15 @@ local autoFormatFiletypes = {
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
-		vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, { buffer = args.buf })
-		vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, { buffer = args.buf })
-		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = args.buf })
-		vim.keymap.set({ "n", "v" }, "<leader>lf", conform.format, { buffer = args.buf })
-		vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { buffer = args.buf })
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf, desc = "References" })
+		vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, { buffer = args.buf, desc = "Definition" })
+		vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, { buffer = args.buf, desc = "Implementation" })
+		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename" })
+		vim.keymap.set({ "n", "v" }, "<leader>lf", conform.format, { buffer = args.buf, desc = "Format" })
+		vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code action" })
 		vim.keymap.set("n", "<leader>lh", function()
 			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = args.buf }), { bufnr = args.buf })
-		end, { buffer = args.buf })
+		end, { buffer = args.buf, desc = "Inlay hints" })
 	end,
 })
 

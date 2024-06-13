@@ -53,17 +53,17 @@ end)
 
 later(function()
 	require("mini.pick").setup()
-	vim.keymap.set("n", "<leader>f", MiniPick.builtin.files)
-	vim.keymap.set("n", "<leader>ss", MiniPick.builtin.grep_live)
-	vim.keymap.set("n", "<leader>sg", MiniPick.builtin.grep)
-	vim.keymap.set("n", "<leader>sb", MiniPick.builtin.buffers)
-	vim.keymap.set("n", "<leader>sh", MiniPick.builtin.help)
-	vim.keymap.set("n", "<leader>sd", MiniExtra.pickers.diagnostic)
-	vim.keymap.set("n", "<leader>sr", MiniExtra.pickers.registers)
+	vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "File search" })
+	vim.keymap.set("n", "<leader>ss", MiniPick.builtin.grep_live, { desc = "Live grep" })
+	vim.keymap.set("n", "<leader>sg", MiniPick.builtin.grep, { desc = "Grep" })
+	vim.keymap.set("n", "<leader>sb", MiniPick.builtin.buffers, { desc = "Buffers" })
+	vim.keymap.set("n", "<leader>sh", MiniPick.builtin.help, { desc = "Help" })
+	vim.keymap.set("n", "<leader>sd", MiniExtra.pickers.diagnostic, { desc = "Diagnostic" })
+	vim.keymap.set("n", "<leader>sr", MiniExtra.pickers.registers, { desc = "Registers" })
 
 	vim.keymap.set("n", "<leader>slr", function()
 		MiniExtra.pickers.lsp({ scope = "references" })
-	end)
+	end, { desc = "References" })
 end)
 
 later(function()
@@ -107,12 +107,12 @@ later(function()
 		if not MiniFiles.close() then
 			MiniFiles.open()
 		end
-	end)
+	end, { desc = "File explorer from cwd" })
 	vim.keymap.set("n", "<leader>e", function()
 		if not MiniFiles.close() then
 			MiniFiles.open(vim.fn.expand("%:h"))
 		end
-	end)
+	end, { desc = "File explorer from buffer" })
 
 	local show_dotfiles = true
 
@@ -135,7 +135,7 @@ later(function()
 		callback = function(args)
 			local buf_id = args.data.buf_id
 			-- Tweak left-hand side of mapping to your liking
-			vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id })
+			vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle dotfiles" })
 		end,
 	})
 end)
@@ -143,7 +143,7 @@ end)
 require("mini.indentscope").setup()
 
 require("mini.misc").setup()
-vim.keymap.set("n", "<leader>z", MiniMisc.zoom)
+vim.keymap.set("n", "<leader>z", MiniMisc.zoom, { desc = "Zoom" })
 
 now(function()
 	add("neovim/nvim-lspconfig")
