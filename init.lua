@@ -43,6 +43,10 @@ now(function()
 	require("mini.ai").setup()
 end)
 
+now(function()
+	require("mini.trailspace").setup()
+end)
+
 later(function()
 	require("mini.extra").setup()
 end)
