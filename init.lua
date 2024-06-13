@@ -61,6 +61,29 @@ later(function()
 	add("wakatime/vim-wakatime")
 end)
 
+now(function()
+	require("mini.notify").setup({
+		window = {
+			config = function()
+				local has_statusline = vim.o.laststatus > 0
+				local bottom_space = vim.o.cmdheight + (has_statusline and 1 or 0)
+				return {
+					border = "single",
+					anchor = "SE",
+					col = vim.o.columns,
+					row = vim.o.lines - bottom_space,
+				}
+			end,
+		},
+	})
+	vim.notify = require("mini.notify").make_notify({
+		ERROR = { duration = 5000 },
+	})
+	vim.api.nvim_create_user_command("Notifyhistory", function()
+		require("mini.notify").show_history()
+	end, { desc = "Show mini.notify history" })
+end)
+
 later(function()
 	require("mini.files").setup({
 		windows = {
