@@ -40,6 +40,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
 		vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, { buffer = args.buf })
+		vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, { buffer = args.buf })
 		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = args.buf })
 		vim.keymap.set({ "n", "v" }, "<leader>lf", conform.format, { buffer = args.buf })
 		vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { buffer = args.buf })
