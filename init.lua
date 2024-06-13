@@ -39,6 +39,10 @@ now(function()
 	require("mini.statusline").setup()
 end)
 
+now(function()
+	require("mini.ai").setup()
+end)
+
 later(function()
 	require("mini.extra").setup()
 end)
