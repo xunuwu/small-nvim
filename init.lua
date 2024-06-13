@@ -56,6 +56,10 @@ later(function()
 end)
 
 later(function()
+	require("mini.move").setup()
+end)
+
+later(function()
 	require("mini.pick").setup()
 	vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "File search" })
 	vim.keymap.set("n", "<leader>ss", MiniPick.builtin.grep_live, { desc = "Live grep" })
