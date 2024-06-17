@@ -16,15 +16,15 @@
     utils.lib.eachDefaultSystem (
       system: let
         inherit (nixpkgs) lib;
-        pkgs = nixpkgs.legacyPackages.${system}.extend inputs.neovim-nightly-overlay.overlay;
+        pkgs = import nixpkgs {inherit system;};
 
         nvim =
-          pkgs.wrapNeovimUnstable pkgs.neovim-nightly
+          pkgs.wrapNeovimUnstable inputs.neovim-nightly-overlay.packages.${system}.neovim
           (pkgs.neovimUtils.makeNeovimConfig
             {
               customRC = ''
                 set runtimepath^=${./.}
-                source ${./.}/init.lua
+                source ${./init.lua}
               '';
               wrapperArgs = ''
                 --suffix PATH : "${lib.makeBinPath (with pkgs; [
@@ -38,13 +38,6 @@
               withNodeJs = true;
             });
       in {
-        overlays = {
-          neovim = _: _prev: {
-            neovim = nvim;
-          };
-          default = self.overlays.neovim;
-        };
-
         packages = rec {
           neovim = nvim;
           default = neovim;

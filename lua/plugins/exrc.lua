@@ -14,11 +14,11 @@ end
 for _, file in pairs(found) do
 	local contents = vim.secure.read(file)
 	if contents then
-		local fn, error = load(contents)
+		local exec_file, error = load(contents)
 		if error then
 			print(error)
-		elseif fn then
-			fn()
+		elseif exec_file then
+			exec_file()
 		end
 	end
 end

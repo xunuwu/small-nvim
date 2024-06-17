@@ -1,10 +1,11 @@
 local lspconfig = require("lspconfig");
 (function(conf)
 	for _, v in ipairs(conf) do
+		local options = {}
 		if type(v) == "string" then
-			lspconfig[v].setup({})
+			lspconfig[v].setup(options)
 		elseif type(v) == "table" then
-			local opts = v[2] or {}
+			local opts = v[2] and vim.tbl_deep_extend(v[2], options) or options
 			lspconfig[v[1]].setup(opts)
 		end
 	end

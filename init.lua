@@ -148,18 +148,22 @@ later(function()
 	})
 end)
 
-require("mini.indentscope").setup()
+later(function()
+	require("mini.indentscope").setup()
+end)
 
 require("mini.misc").setup()
 vim.keymap.set("n", "<leader>z", MiniMisc.zoom, { desc = "Zoom" })
 
-now(function()
+later(function()
 	add("neovim/nvim-lspconfig")
 	add("stevearc/conform.nvim")
 	require("plugins.lsp")
 end)
 
-require("mini.completion").setup()
+later(function()
+	require("mini.completion").setup({})
+end)
 
 later(function()
 	local miniclue = require("mini.clue")
