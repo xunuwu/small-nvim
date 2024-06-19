@@ -243,6 +243,10 @@ now(function()
 end)
 
 later(function()
+	add("direnv/direnv.vim")
+end)
+
+later(function()
 	-- fugitive --
 	add("tpope/vim-fugitive")
 	add("tpope/vim-rhubarb.git")

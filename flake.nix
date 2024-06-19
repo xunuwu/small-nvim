@@ -28,11 +28,10 @@
               '';
               wrapperArgs = ''
                 --suffix PATH : "${lib.makeBinPath (with pkgs; [
-                  gcc # TODO: make this actually work for treesitter
+                  gcc
                   ripgrep
                   git
 
-                  # treesitter
                   tree-sitter
                 ])}"'';
               withNodeJs = true;
