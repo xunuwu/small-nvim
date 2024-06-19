@@ -78,8 +78,25 @@ later(function()
 	add("wakatime/vim-wakatime")
 end)
 
-now(function()
-	require("mini.surround").setup()
+later(function()
+	require("mini.surround").setup({
+		n_lines = 50,
+	})
+end)
+
+later(function()
+	add("folke/flash.nvim")
+	local flash = require("flash")
+	flash.setup({
+		modes = {
+			search = {
+				enabled = true,
+			},
+		},
+	})
+	vim.keymap.set("n", [[\]], function()
+		flash.treesitter_search()
+	end, { desc = "Flash treesitter_search" })
 end)
 
 now(function()
@@ -225,7 +242,17 @@ now(function()
 	require("plugins.exrc")
 end)
 
--- dependencies ===================
+later(function()
+	-- fugitive --
+	add("tpope/vim-fugitive")
+	add("tpope/vim-rhubarb.git")
+end)
+
+later(function()
+	require("mini.diff").setup({})
+end)
+
+-- dependencies --
 now(function()
 	add("nvim-tree/nvim-web-devicons")
 end)
