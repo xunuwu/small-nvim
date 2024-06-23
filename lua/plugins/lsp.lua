@@ -29,6 +29,7 @@ conform.setup({
 		zig = { "zigfmt" },
 		c = { "clang-format" },
 		cpp = { "clang-format" },
+		rust = { "rustfmt" },
 	},
 })
 
