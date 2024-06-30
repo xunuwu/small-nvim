@@ -179,6 +179,13 @@ later(function()
 end)
 
 later(function()
+	-- lang-specific
+	-- use <leader>p as prefix for all lang-specific commands!
+	MiniDeps.add("mrcjkb/haskell-tools.nvim")
+	require("plugins.lang.haskell")
+end)
+
+later(function()
 	require("mini.completion").setup({})
 end)
 

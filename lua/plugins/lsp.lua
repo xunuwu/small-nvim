@@ -55,13 +55,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 local formatPattern = ""
 for i, v in ipairs(autoFormatFiletypes) do
-	if i ~= 1 then
-		formatPattern = formatPattern .. ","
-	end
-	formatPattern = formatPattern .. "*." .. v
+	formatPattern = formatPattern .. (i ~= 1 and "," or "") .. "*." .. v
 end
 
 vim.api.nvim_create_autocmd("BufWritePre", {
+	-- TODO: just pass an array here as done in plugins/lang/haskell.lua
 	pattern = formatPattern,
 	callback = function(args)
 		conform.format({ bufnr = args.buf })
