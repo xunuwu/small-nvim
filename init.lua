@@ -172,7 +172,7 @@ end)
 require("mini.misc").setup()
 vim.keymap.set("n", "<leader>z", MiniMisc.zoom, { desc = "Zoom" })
 
-later(function()
+now(function()
 	add("neovim/nvim-lspconfig")
 	add("stevearc/conform.nvim")
 	require("plugins.lsp")
@@ -181,7 +181,7 @@ end)
 later(function()
 	-- lang-specific
 	-- use <leader>p as prefix for all lang-specific commands!
-	MiniDeps.add("mrcjkb/haskell-tools.nvim")
+	add("mrcjkb/haskell-tools.nvim")
 	require("plugins.lang.haskell")
 end)
 
