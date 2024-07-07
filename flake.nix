@@ -2,7 +2,7 @@
   description = "xun's neovim config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "nixpkgs";
     utils.url = "github:numtide/flake-utils";
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
