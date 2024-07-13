@@ -39,11 +39,11 @@ now(function()
 	require("mini.statusline").setup()
 end)
 
-now(function()
+later(function()
 	require("mini.ai").setup()
 end)
 
-now(function()
+later(function()
 	require("mini.trailspace").setup()
 end)
 
@@ -57,6 +57,10 @@ end)
 
 later(function()
 	require("mini.move").setup()
+end)
+
+later(function()
+	require("mini.align").setup()
 end)
 
 later(function()
