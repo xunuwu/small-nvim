@@ -10,16 +10,11 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    utils,
-    ...
-  } @ inputs:
-    utils.lib.eachDefaultSystem (
+  outputs = inputs:
+    inputs.utils.lib.eachDefaultSystem (
       system: let
-        inherit (nixpkgs) lib;
-        pkgs = import nixpkgs {inherit system;};
+        pkgs = import inputs.nixpkgs {inherit system;};
+        inherit (pkgs) lib;
 
         nvim =
           pkgs.wrapNeovimUnstable inputs.neovim-nightly-overlay.packages.${system}.neovim
