@@ -187,6 +187,12 @@ later(function()
 	-- use <leader>p as prefix for all lang-specific commands!
 	add("mrcjkb/haskell-tools.nvim")
 	require("plugins.lang.haskell")
+
+	add({
+		source = "mrcjkb/rustaceanvim",
+		checkout = "5.2.0",
+	})
+	require("plugins.lang.rust")
 end)
 
 later(function()

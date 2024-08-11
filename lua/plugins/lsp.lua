@@ -17,7 +17,6 @@ end)({
 	"nil_ls",
 	"gopls",
 	"svelte",
-	"rust_analyzer",
 })
 
 local conform = require("conform")
