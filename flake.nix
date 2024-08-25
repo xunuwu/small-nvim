@@ -16,29 +16,17 @@
         pkgs = import inputs.nixpkgs {inherit system;};
         inherit (pkgs) lib;
 
-        nvim =
-          pkgs.wrapNeovimUnstable inputs.neovim-nightly-overlay.packages.${system}.neovim
-          (pkgs.neovimUtils.makeNeovimConfig
-            {
-              customRC = ''
-                set runtimepath^=${./.}
-                source ${./init.lua}
-              '';
-              wrapperArgs = ''
-                --suffix PATH : "${lib.makeBinPath (with pkgs; [
-                  gcc
-                  ripgrep
-                  git
-
-                  tree-sitter
-                ])}"'';
-              withNodeJs = true;
-            });
+        nvim = pkgs.callPackage ./package.nix {
+          inherit (inputs.neovim-nightly-overlay.packages.${system}) neovim;
+        };
       in {
         packages = rec {
           neovim = nvim;
           default = neovim;
         };
+
+        homeManagerModules.default = import ./hm-module.nix {inherit nvim;};
+        # nixosModules.default = import ./hm-module.nix;
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
