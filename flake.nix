@@ -10,9 +10,10 @@
     };
   };
 
-  outputs = inputs:
+  outputs = {self, ...} @ inputs:
     inputs.utils.lib.eachDefaultSystem (
       system: let
+        inherit (inputs.utils.lib) eachDefaultSystem;
         pkgs = import inputs.nixpkgs {inherit system;};
         inherit (pkgs) lib;
 
@@ -25,9 +26,6 @@
           default = neovim;
         };
 
-        homeManagerModules.default = import ./hm-module.nix {inherit nvim;};
-        # nixosModules.default = import ./hm-module.nix;
-
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             stylua
@@ -35,5 +33,10 @@
           ];
         };
       }
-    );
+    )
+    // {
+      homeManagerModules.small-nvim = import ./hm-module.nix {
+        inherit self inputs;
+      };
+    };
 }

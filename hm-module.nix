@@ -1,23 +1,48 @@
 {
-  lib,
-  neovim,
+  self,
+  inputs,
+}: {
   config,
+  pkgs,
+  lib,
+  ...
 }: let
-  inherit (lib) mkOption mkEnableOption type;
   cfg = config.xun.small-nvim;
+  inherit (lib) mkEnableOption mkOption types;
 in {
   options.xun.small-nvim = {
     enable = mkEnableOption "neovim config";
-    package = neovim;
-    colorscheme = mkOption {
-      type = type.str;
-      default = "carbonfox";
-      description = "which colorscheme to use";
-      example = "dawnfox";
+    wakatime.enable = mkEnableOption "wakatime plugin";
+    colorscheme = {
+      name = mkOption {
+        type = types.str;
+        default = "carbonfox";
+        description = "which colorscheme to use";
+        example = "dawnfox";
+      };
+      package = mkOption {
+        type = types.str;
+        default = "EdenEast/nightfox.nvim";
+        description = "colorscheme package name";
+      };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [neovim];
+    home.packages = [
+      (pkgs.callPackage ./package.nix {
+        inherit (inputs.neovim-nightly-overlay.packages.${pkgs.system}) neovim;
+        conf = pkgs.writeText "config.lua" ''
+          _G.CONFIG = {
+            colorscheme = {
+               name = "${cfg.colorscheme.name}",
+               package = "${cfg.colorscheme.package}",
+            },
+            wakatime = ${lib.boolToString cfg.wakatime.enable},
+          }
+        '';
+      })
+    ];
+    home.sessionVariables.EDITOR = "nvim";
   };
 }

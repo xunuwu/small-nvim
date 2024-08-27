@@ -22,9 +22,14 @@ require("mini.deps").setup({ path = { package = path_package } })
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
+-- local conf = (os.getenv("NVIM_CONFIG_OPTIONS")) and dofile(os.getenv("NVIM_CONFIG_OPTIONS")) or require("config")
+if not _G.CONFIG then
+	require("config")
+end
+local conf = _G.CONFIG
+
 now(function()
-	add("EdenEast/nightfox.nvim")
-	require("plugins.colorscheme")
+	require("plugins.colorscheme")(conf.colorscheme)
 end)
 
 now(function()
@@ -78,9 +83,11 @@ later(function()
 	end, { desc = "References" })
 end)
 
-later(function()
-	add("wakatime/vim-wakatime")
-end)
+if conf.wakatime then
+	later(function()
+		add("wakatime/vim-wakatime")
+	end)
+end
 
 later(function()
 	require("mini.surround").setup({
@@ -176,7 +183,7 @@ end)
 require("mini.misc").setup()
 vim.keymap.set("n", "<leader>z", MiniMisc.zoom, { desc = "Zoom" })
 
-now(function()
+later(function()
 	add("neovim/nvim-lspconfig")
 	add("stevearc/conform.nvim")
 	require("plugins.lsp")
