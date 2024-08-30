@@ -32,7 +32,7 @@ in {
     home.packages = [
       (pkgs.callPackage ./package.nix {
         inherit (inputs.neovim-nightly-overlay.packages.${pkgs.system}) neovim;
-        conf = pkgs.writeText "config.lua" ''
+        conf = builtins.toFile "config.lua" ''
           _G.CONFIG = {
             colorscheme = {
                name = "${cfg.colorscheme.name}",
