@@ -15,6 +15,7 @@ end)({
 	"tsserver",
 	"zls",
 	"nil_ls",
+	"nixd",
 	"gopls",
 	"svelte",
 })
