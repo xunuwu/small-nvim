@@ -36,7 +36,7 @@
     )
     // {
       homeManagerModules.small-nvim = import ./hm-module.nix {
-        inherit self inputs;
+        inherit inputs;
       };
     };
 }
