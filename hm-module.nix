@@ -25,6 +25,11 @@ in {
         default = "EdenEast/nightfox.nvim";
         description = "colorscheme package name";
       };
+      extraConfig = mkOption {
+        type = types.str;
+        default = "";
+        description = "extra colorscheme configuration in lua";
+      };
     };
   };
 
@@ -37,6 +42,7 @@ in {
             colorscheme = {
                name = "${cfg.colorscheme.name}",
                package = "${cfg.colorscheme.package}",
+               extraConfig = "${builtins.toFile "extraConfig.lua" cfg.colorscheme.extraConfig}",
             },
             wakatime = ${lib.boolToString cfg.wakatime.enable},
           }
