@@ -18,6 +18,7 @@ end)({
 	"nixd",
 	"gopls",
 	"svelte",
+	"ruff",
 })
 
 local conform = require("conform")
