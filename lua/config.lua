@@ -2,7 +2,7 @@ _G.CONFIG = {
 	colorscheme = {
 		name = "carbonfox",
 		package = "EdenEast/nightfox.nvim",
-		extraConfig = [[require("nightfox").setup()]],
+		extraConfig = [[]], -- file path
 	},
 	wakatime = false,
 }
