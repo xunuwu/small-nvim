@@ -262,10 +262,6 @@ later(function()
 	require("plugins.dap")
 end)
 
-now(function()
-	require("plugins.exrc")
-end)
-
 later(function()
 	add("direnv/direnv.vim")
 end)
@@ -278,6 +274,10 @@ end)
 
 later(function()
 	require("mini.diff").setup({})
+end)
+
+later(function()
+	require("plugins.exrc")
 end)
 
 -- dependencies --
