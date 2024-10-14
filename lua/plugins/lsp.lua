@@ -19,6 +19,7 @@ end)({
 	"gopls",
 	"svelte",
 	"ruff",
+	"omnisharp",
 })
 
 local conform = require("conform")
